@@ -42,7 +42,7 @@ app.post('/isbn', function (req, res, next) {
                 var responseString = "isbn13: " + result.isbn13;
                 responseString = responseString + " isbn10: " + result.isbn10;
                 responseString = responseString + " title: " + result.title;
-                // + ", inventory: " + result.inventory + ", link: http://packbackbooks.com/p/" + result.isbn13 + "/" + result.slug "";
+                responseString = responseString + " inventory: " + result.inventory.toString() + " link: http://packbackbooks.com/p/" + result.isbn13;
                 var botPayload = {
                     text : responseString
                 };
