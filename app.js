@@ -39,10 +39,10 @@ app.post('/isbn', function (req, res, next) {
         getJSON(options, function(statusCode, results) {
             if (results.total_records === 1) {
                 var result = results.records[0];
-                var responseString = "isbn13: " + result.isbn13;
-                responseString = responseString + " isbn10: " + result.isbn10;
-                responseString = responseString + " title: " + result.title;
-                responseString = responseString + " inventory: " + result.inventory.toString() + " link: http://packbackbooks.com/p/" + result.isbn13;
+                var responseString = "isbn13: '" + result.isbn13;
+                responseString = responseString + "' | isbn10: '" + result.isbn10;
+                responseString = responseString + "' | title: '" + result.title;
+                responseString = responseString + "' | inventory: '" + result.inventory.toString() + "' | link: http://packbackbooks.com/p/" + result.isbn13;
                 var botPayload = {
                     text : responseString
                 };
