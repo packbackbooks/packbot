@@ -19,20 +19,16 @@ app.listen(port, function () {
 app.post('/isbn', function (req, res, next) {
     var token = req.body.token;
     var inputText = req.body.text;
-    var botPayload = {
-        text : inputText
-    };
-    return res.status(200).json(botPayload);
-    /*
     if (token === 'Om7eyT4leAZ9coomyRCH5F1m') {
+        /*
         inputText = inputText.split(":");
         var isbn = inputText[1];
         isbn = isbn.replace(/ /g,'');
+        */
         var botPayload = {
-            text : isbn
+            text : inputText
         };
         return res.status(200).json(botPayload);
     }
     return res.status(404).end();
-    */
 });
