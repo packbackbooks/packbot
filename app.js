@@ -20,7 +20,7 @@ app.post('/isbn', function (req, res, next) {
     var token = req.body.token;
     var inputText = req.body.text;
     var userName = req.body.user_name;
-    if (token === 'Om7eyT4leAZ9coomyRCH5F1m' && userName !== 'packbot') {
+    if (token === 'Om7eyT4leAZ9coomyRCH5F1m' && userName !== 'slackbot') {
         /*
         inputText = inputText.split(":");
         var isbn = inputText[1];
