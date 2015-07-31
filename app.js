@@ -18,7 +18,8 @@ app.listen(port, function () {
 
 app.post('/isbn', function (req, res, next) {
     var token = req.body.token;
-    var text = req.body.text;
+    // var text = req.body.text;
+    return res.status(200).json(token);
     if (token === 'Om7eyT4leAZ9coomyRCH5F1m') {
         var text = text.split(":");
         var isbn = text[1];
