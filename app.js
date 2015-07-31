@@ -9,7 +9,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // test route
 app.get('/', function (req, res) {
-    res.status(200).send('Hello world!');
+    inputText = 'isbn:978';
+    inputText = inputText.split(":");
+    var isbn = inputText[1];
+    isbn = isbn.replace(/ /g,'');
+    res.status(200).send(isbn);
 });
 
 app.listen(port, function () {
@@ -21,13 +25,11 @@ app.post('/isbn', function (req, res, next) {
     var inputText = req.body.text;
     var userName = req.body.user_name;
     if (token === 'Om7eyT4leAZ9coomyRCH5F1m' && userName !== 'slackbot') {
-        /*
         inputText = inputText.split(":");
         var isbn = inputText[1];
         isbn = isbn.replace(/ /g,'');
-        */
         var botPayload = {
-            text : inputText
+            text : isbn
         };
         return res.status(200).json(botPayload);
     }
