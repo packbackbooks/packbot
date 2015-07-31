@@ -5,7 +5,20 @@ var app = express();
 var port = process.env.PORT || 1337;
 
 // body parser middleware
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use (function(req, res, next) {
+    var data='';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) {
+       data += chunk;
+    });
+
+    req.on('end', function() {
+        req.body = data;
+        next();
+    });
+});
 
 // test route
 app.get('/', function (req, res) {
@@ -13,18 +26,19 @@ app.get('/', function (req, res) {
 });
 
 app.listen(port, function () {
-  console.log('Listening on port ' + port);
+    console.log('Listening on port ' + port);
 });
 
 app.post('/isbn', function (req, res, next) {
     var token = req.body.token;
     var text = req.body.text;
+    return res.status(200).json(req.body);
     if (token === 'Om7eyT4leAZ9coomyRCH5F1m') {
         var text = text.split(":");
         var isbn = text[1];
         isbn = isbn.replace(/ /g,'');
         var botPayload = {
-            tokenext : isbn
+            text : isbn
         };
         return res.status(200).json(botPayload);
     }
