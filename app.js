@@ -17,14 +17,15 @@ app.listen(port, function () {
 });
 
 app.post('/isbn', function (req, res, next) {
-  var userName = req.body.user_name;
-  var botPayload = {
-    text : 'Hello ' + userName + ', welcome to Packback\'s Slack channel!'
-  };
-  // Loop otherwise..
-  if (userName !== 'slackbot') {
-    return res.status(200).json(botPayload);
-  } else {
-    return res.status(200).end();
-  }
+    var token = req.body.token;
+    var text = req.body.text;
+    if (token === 'Om7eyT4leAZ9coomyRCH5F1m') {
+        var isbn = text.split(":");
+        isbn = isbn.replace(/ /g,'');
+        var botPayload = {
+            tokenext : isbn
+        };
+        return res.status(200).json(botPayload);
+    }
+    return res.status(404).end();
 });
