@@ -48,7 +48,7 @@ app.post('/isbn', function (req, res, next) {
             }
         });
     }
-    return res.status(404).end();
+    //return res.status(404).end();
 });
 
 var getOptions = function(isbn)
@@ -66,12 +66,9 @@ var getOptions = function(isbn)
 // getJSON:  REST get request returning JSON object(s)
 var getJSON = function(options, onResult)
 {
-    console.log("rest::getJSON");
-
     var req = http.request(options, function(res)
     {
         var output = '';
-        console.log(options.host + ':' + res.statusCode);
         res.setEncoding('utf8');
 
         res.on('data', function (chunk) {
