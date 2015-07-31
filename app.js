@@ -8,21 +8,6 @@ var port = process.env.PORT || 1337;
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// test route
-app.get('/', function (req, res) {
-    var isbn = req.query.isbn;
-    var options = getOptions(isbn);
-    getJSON(options, function(statusCode, results) {
-        if (results.total_records === 1) {
-            var result = results.records[0];
-            res.statusCode = statusCode;
-            res.status(200).send(result);
-        } else {
-            res.status(404).end();
-        }
-    });
-});
-
 app.listen(port, function () {
     console.log('Listening on port ' + port);
 });
@@ -91,3 +76,19 @@ var getJSON = function(options, onResult)
 
     req.end();
 };
+
+/* Test Route: Uncomment to use /?isbn=<ISBN> on local
+app.get('/', function (req, res) {
+    var isbn = req.query.isbn;
+    var options = getOptions(isbn);
+    getJSON(options, function(statusCode, results) {
+        if (results.total_records === 1) {
+            var result = results.records[0];
+            res.statusCode = statusCode;
+            res.status(200).send(result);
+        } else {
+            res.status(404).end();
+        }
+    });
+});
+*/
