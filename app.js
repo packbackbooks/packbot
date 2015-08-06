@@ -26,14 +26,26 @@ app.listen(port, function () {
 app.get('/', function (req, res) {
     var isbn = req.query.isbn;
     var options = getOptions(isbn);
+    var botPayload = {
+        text: "Looks like something went wrong."
+    };
     getJSON(options, function(statusCode, results) {
-        if (results.total_records === 1) {
-            var result = results.records[0];
-            res.statusCode = statusCode;
-            res.status(200).send(result);
+        if (results.total_records) {
+            if (results.total_records === 1) {
+                var result = results.records[0];
+                res.statusCode = statusCode;
+                botPayload = result;
+            } else {
+                botPayload = {
+                    text : "We have multiple books that meet that criteria. Try searching for a single ISBN."
+                };
+            }
         } else {
-            res.status(404).end();
+            botPayload = {
+                text : "We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
+            };
         }
+        return res.status(200).json(botPayload);
     });
 });
 
@@ -41,25 +53,36 @@ app.post('/isbn', function (req, res, next) {
     var token = req.body.token;
     var inputText = req.body.text;
     var userName = req.body.user_name;
+    var botPayload = {
+        text: "Looks like something went wrong."
+    };
     if (token === config.slack_token && userName !== 'slackbot') {
         inputText = inputText.split(":");
         var isbn = inputText[1];
         isbn = isbn.replace(/ /g,'');
         var options = getOptions(isbn);
         getJSON(options, function(statusCode, results) {
-            if (results.total_records === 1) {
-                var result = results.records[0];
-                var responseString = "isbn13: '" + result.isbn13;
-                responseString = responseString + "' | isbn10: '" + result.isbn10;
-                responseString = responseString + "' | title: '" + result.title;
-                responseString = responseString + "' | inventory: '" + result.inventory.toString() + "' | link: http://packbackbooks.com/p/" + result.isbn13;
-                var botPayload = {
-                    text : responseString
-                };
-                return res.status(200).json(botPayload);
+            if (results.total_records) {
+                if (results.total_records === 1) {
+                    var result = results.records[0];
+                    var responseString = "isbn13: '" + result.isbn13;
+                    responseString = responseString + "' | isbn10: '" + result.isbn10;
+                    responseString = responseString + "' | title: '" + result.title;
+                    responseString = responseString + "' | inventory: '" + result.inventory.toString() + "' | link: http://packbackbooks.com/p/" + result.isbn13;
+                    botPayload = {
+                        text : responseString
+                    };
+                } else {
+                    botPayload = {
+                        text : "We have multiple books that meet that criteria. Try searching for a single ISBN."
+                    };
+                }
             } else {
-                res.status(404).end();
+                botPayload = {
+                    text : "We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
+                };
             }
+            return res.status(200).json(botPayload);
         });
     }
 });
