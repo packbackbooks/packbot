@@ -46,11 +46,12 @@ app.get('/', function (req, res) {
 });
 
 app.post('/isbn', function (req, res, next) {
+    var badword = cursor.randomCurse();
     var token = req.body.token;
     var inputText = req.body.text;
     var userName = req.body.user_name;
     var botPayload = {
-        text: "Looks like something went wrong."
+        text: badword + "! Looks like something went wrong."
     };
     if (token === config.url().slack_token && userName !== 'slackbot') {
         inputText = inputText.split(":");
@@ -70,12 +71,12 @@ app.post('/isbn', function (req, res, next) {
                     };
                 } else {
                     botPayload = {
-                        text : "We have multiple books that meet that criteria. Try searching for a single ISBN."
+                    text : badword + "! We have multiple books that meet that criteria. Try searching for a single ISBN."
                     };
                 }
             } else {
                 botPayload = {
-                    text : "We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
+                text : badword + "! We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
                 };
             }
             return res.status(200).json(botPayload);
