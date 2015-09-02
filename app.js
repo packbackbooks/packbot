@@ -35,10 +35,19 @@ app.post('/isbn', function (req, res, next) {
 
     if (token === config.url().slack_token && userName !== 'slackbot') {
         inputText = inputText.split(":");
-        var isbn = inputText[1];
-        isbn = isbn.replace(/ /g,'');
-
-        var options = config.getOptions(isbn);
+        switch(inputText[0]) {
+            case (inputText[0] === 'isbn'):
+                var query = inputText[1];
+                query = query.replace(/ /g,'');
+                break;
+            case (inputText[0] === 'title'):
+                var query = inputText[1];
+                break;
+            default:
+                var query = null;
+                break;
+        }
+        var options = config.getOptions(query);
         getJSON(options, function(results) {
             var botPayload = generatePayload(results);
             res.status(200).json(botPayload);
