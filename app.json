@@ -1,0 +1,21 @@
+{
+  "name": "Packbot",
+  "description": "Packback ISBN lookup bot.",
+  "keywords": [
+    "slack",
+    "packback",
+    "bot"
+  ],
+  "repository": "https://github.com/packbackbooks/packbot",
+  "env": {
+    "ENVIRONMENT": {
+      "description": "If environment is not 'production' use env.json file for config."
+    },
+    "PB_BASE_URL": {
+      "description": "<SUBDOMAIN>.<DOMAIN>.<EXTENSION>"
+    },
+    "SLACK_TOKEN": {
+      "description": "Token provided by slack for integrating this bot into your system."
+    },
+  }
+}

@@ -1,13 +1,17 @@
 {
-  "name": "packBot",
-  "version": "0.1.0",
-  "description": "Packback ISBN lookup bot",
+  "name": "Packbot",
+  "version": "0.2.0",
+  "description": "Packback ISBN lookup bot.",
   "main": "app.js",
   "author": "Karl L. Hughes <karl@packback.co>",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
-    "express": "^4.x.x",
+    "badwords": "0.0.3",
     "body-parser": "^1.x.x",
+    "express": "^4.x.x",
     "request": "2.56.x"
   }
 }

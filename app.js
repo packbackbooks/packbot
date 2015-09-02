@@ -1,33 +1,29 @@
+// Node modules required
 var express = require('express');
 var bodyParser = require('body-parser');
-var http = require('http');
+var https = require('https');
 
+// JS files required
+var config = require('./src/config.js');
+var cursor = require('./src/cursor.js');
+
+// Initialize express
 var app = express();
-var port = process.env.PORT || 1337;
-
-// Import config variables
-if (process.env.ENVIRONMENT === 'production') {
-    var config = {
-        'pb_base_url': process.env.PB_BASE_URL,
-        'slack_token': process.env.SLACK_TOKEN,
-    }
-} else {
-    var config = require('./env.json');
-}
 
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(port, function () {
-    console.log('Listening on port ' + port);
+app.listen(config.port, function () {
+    console.log('Listening on port ' + config.port);
 });
 
 /* Test Route: Use /?isbn=<ISBN> to test */
 app.get('/', function (req, res) {
+    var badword = cursor.randomCurse();
     var isbn = req.query.isbn;
     var options = getOptions(isbn);
     var botPayload = {
-        text: "Looks like something went wrong."
+        text: badword + "! Looks like something went wrong."
     };
     getJSON(options, function(statusCode, results) {
         if (results.total_records) {
@@ -37,12 +33,12 @@ app.get('/', function (req, res) {
                 botPayload = result;
             } else {
                 botPayload = {
-                    text : "We have multiple books that meet that criteria. Try searching for a single ISBN."
+                    text : badword + "! We have multiple books that meet that criteria. Try searching for a single ISBN."
                 };
             }
         } else {
             botPayload = {
-                text : "We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
+                text : badword + "! We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
             };
         }
         return res.status(200).json(botPayload);
@@ -56,7 +52,7 @@ app.post('/isbn', function (req, res, next) {
     var botPayload = {
         text: "Looks like something went wrong."
     };
-    if (token === config.slack_token && userName !== 'slackbot') {
+    if (token === config.url().slack_token && userName !== 'slackbot') {
         inputText = inputText.split(":");
         var isbn = inputText[1];
         isbn = isbn.replace(/ /g,'');
@@ -90,7 +86,7 @@ app.post('/isbn', function (req, res, next) {
 var getOptions = function(isbn)
 {
     return {
-        host: config.pb_base_url,
+        host: config.url().pb_base_url,
         path: '/api/search/'+isbn,
         method: 'GET',
         headers: {
@@ -102,7 +98,7 @@ var getOptions = function(isbn)
 // getJSON:  REST get request returning JSON object(s)
 var getJSON = function(options, onResult)
 {
-    var req = http.request(options, function(res)
+    var req = https.request(options, function(res)
     {
         var output = '';
         res.setEncoding('utf8');
