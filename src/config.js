@@ -10,5 +10,15 @@ module.exports = {
             var env = require('../env.json');
             return env;
         }
+    },
+    getOptions: function (isbn) {
+        return {
+            host: this.url().pb_base_url,
+            path: '/api/search/'+isbn,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
     }
 };
