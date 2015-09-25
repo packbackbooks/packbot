@@ -74,7 +74,8 @@ var getJSON = function(options, callback)
 // Take results from search api and generate Slack-friendly payload
 var generatePayload = function (results)
 {
-    var badword = cursor.randomCurse();
+    // Packbot curses at you. How fun!
+    // var badword = cursor.randomCurse();
     if (results.total_records) {
         if (results.total_records === 1) {
             var responseString = generateResponseString(results.records[0]);
@@ -83,12 +84,12 @@ var generatePayload = function (results)
             };
         } else {
             return {
-                text : badword + "! We have multiple books that meet that criteria. Try searching for a single ISBN."
+                text : "We have multiple books that meet that criteria. Try searching for a single ISBN."
             };
         }
     }
     return {
-        text : badword + "! We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
+        text : "We can't find that book. It probably doesn't exist in Packback's system or it hasn't been added to our search index yet."
     };
 }
 
