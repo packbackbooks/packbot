@@ -16,6 +16,6 @@
     },
     "SLACK_TOKEN": {
       "description": "Token provided by slack for integrating this bot into your system."
-    },
+    }
   }
 }

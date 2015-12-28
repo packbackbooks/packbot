@@ -2,11 +2,24 @@
   "name": "Packbot",
   "version": "0.2.0",
   "description": "Packback ISBN lookup bot.",
-  "main": "app.js",
+  "private": true,
+  "main": "src/app.js",
   "author": "Karl L. Hughes <karl@packback.co>",
-  "license": "MIT",
+  "contributors": [
+    {
+      "name": "Brandon Papworth",
+      "email": "brandon@papworth.me"
+    }
+  ],
   "scripts": {
-    "start": "node app.js"
+    "start": "node ./src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/packbackbooks/packbot"
+  },
+  "bugs": {
+    "url": "https://github.com/packbackbooks/packbot/issues"
   },
   "dependencies": {
     "badwords": "0.0.3",

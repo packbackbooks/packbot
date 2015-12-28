@@ -4,8 +4,8 @@ var bodyParser = require('body-parser');
 var https = require('https');
 
 // JS files required
-var config = require('./src/config.js');
-var cursor = require('./src/cursor.js');
+var config = require('./config.js');
+var cursor = require('./utils/cursor.js');
 
 // Initialize express
 var app = express();
